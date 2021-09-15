@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://localhost:3000/api', 
+    baseURL: 'https://3000-magenta-bat-bhk7juku.ws-us15.gitpod.io/api', 
 });
 
 export default api;
