@@ -15,9 +15,9 @@ type Transaction = {
 type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
 
 //Tipagem do contexto
-type TransactionContext = {
+type TransactionContextData = {
     transactions: Transaction[];
-    createNewTransaction: (transaction:TransactionInput) => void;
+    createNewTransaction: (transaction:TransactionInput) => Promise<void>;
 };
 
 //Tipagem do Provider
@@ -25,13 +25,16 @@ type TransactionProviderProps = {
     children: ReactNode;
 };
 
-export const TransactionContext = createContext<TransactionContext>({} as TransactionContext);
+export const TransactionContext = createContext<TransactionContextData>({} as TransactionContextData);
 
 export function TransactionProvider({ children }:TransactionProviderProps){
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-    function createNewTransaction(transaction:TransactionInput){
-        api.post('/transactions', transaction);
+   async function createNewTransaction(transactionInput:TransactionInput){
+        const response = await api.post('/transactions', transactionInput);
+        const { transaction } = response.data;
+
+        setTransactions([...transactions, transaction ]);
     }
     
     useEffect(()=>{
