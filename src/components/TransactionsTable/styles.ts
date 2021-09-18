@@ -33,6 +33,10 @@ export const Container = styled.div`
       &.deposit {
         color: var(--green);
       }
+
+      @media(max-width: 720px){
+        padding: 1rem;
+      }
     }
   }
 `;

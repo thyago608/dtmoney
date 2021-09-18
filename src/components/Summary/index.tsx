@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTransactions } from '../../hooks/useTransactions';
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import incomeImg from "../../assets/income.svg";
@@ -7,7 +8,8 @@ import { Container, CarrouselWrapper, Carrousel } from "./styles";
 
 export function Summary() {
   const { transactions } = useTransactions();
-  
+  const [scrollAmount, setScrollAmount] = useState(0);
+  let valueToGo = scrollAmount;
 
   const summary = transactions.reduce((accumulator, transaction)=>{
     if(transaction.type === 'deposit'){
@@ -25,9 +27,55 @@ export function Summary() {
     withdraws: 0,
     total: 0
   });
+
+  function sliderScrollLeft(){
+    const carrousel = document.querySelector('.carrousel');
+
+    valueToGo -= 400;
+
+    if(valueToGo < 0){
+        valueToGo = 0;
+    }
+
+    setScrollAmount(valueToGo);
+
+    carrousel?.scrollTo({
+        top:0,
+        left:valueToGo,
+        behavior: 'smooth'
+    });
+
+    }
+
+  function sliderScrollRight(){
+    const carrousel = document.querySelector('.carrousel');
+
+    const scrollWidth = carrousel?.scrollWidth ?? 0;
+
+    const clientWidth = carrousel?.clientWidth ?? 0;
+
+    const total = scrollWidth - clientWidth;
+
+    if(scrollAmount <= total){
+      valueToGo += 400;
+
+      setScrollAmount(valueToGo);
+
+      carrousel?.scrollTo({
+          top:0,
+          left:valueToGo,
+          behavior: 'smooth'
+      });
+
+    }
+  }
+
+
+  console.log(scrollAmount);
+
   return (
     <Container>
-      <CarrouselWrapper>
+      <CarrouselWrapper className="carrousel">
           <Carrousel>
             <section>
                 <header>
@@ -64,11 +112,19 @@ export function Summary() {
         </Carrousel>
       </CarrouselWrapper>
 
-      <button type="button" className="button button-previous">
+      <button 
+            type="button" 
+            className="button button-previous"
+            onClick={sliderScrollLeft}
+      >
           <FiChevronLeft/>
       </button>
 
-      <button type="button" className="button button-next">
+      <button 
+            type="button" 
+            className="button button-next"
+            onClick={sliderScrollRight}
+        >
           <FiChevronRight/>
       </button>
     </Container>

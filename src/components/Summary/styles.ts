@@ -42,14 +42,14 @@ export const CarrouselWrapper = styled.div`
   margin-top: -10rem;
 
   overflow-x: hidden;
+
 `;
+
 
 export const Carrousel = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-
-  transform:translateX(-100px);
 
   section {
     background: var(--shape);
