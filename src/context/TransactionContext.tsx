@@ -18,6 +18,7 @@ type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
 type TransactionContextData = {
     transactions: Transaction[];
     createNewTransaction: (transaction:TransactionInput) => Promise<void>;
+    updateTransaction: (transaction: Transaction) => Promise<void>;
 };
 
 //Tipagem do Provider
@@ -36,7 +37,24 @@ export function TransactionProvider({ children }:TransactionProviderProps){
 
         setTransactions([...transactions, transaction ]);
     }
-    
+
+
+    async function updateTransaction(transactionInput: Transaction){
+        const response = await api.put('/transactions', transactionInput);
+
+        const { transaction } = response.data;
+
+        let transactionsCopy = transactions;
+
+        const transactionIndex = transactionsCopy.findIndex(transaction => transaction.id === transactionInput.id);
+
+        transactionsCopy.splice(transactionIndex, 1);
+
+        transactionsCopy.push(transaction);
+
+        setTransactions([...transactionsCopy]);
+    }   
+
     useEffect(()=>{
         const loadTransactions = async () => {
             const response = await api.get('/transactions');
@@ -45,10 +63,11 @@ export function TransactionProvider({ children }:TransactionProviderProps){
         }
 
         loadTransactions();
-    },[])
+    },[]);
+
     
     return(
-        <TransactionContext.Provider value={{ transactions, createNewTransaction}}>
+        <TransactionContext.Provider value={{ transactions, createNewTransaction, updateTransaction}}>
             {children}
         </TransactionContext.Provider>
     );

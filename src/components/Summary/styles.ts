@@ -26,7 +26,7 @@ export const Container = styled.div`
 
   .button-next{
     top:0;
-    right: 0px;
+    right: 0;
   }
 
 
@@ -87,10 +87,6 @@ export const Carrousel = styled.div`
       &{
         width: 28rem;
         height: 10rem;
-
-        &:first-of-type{
-          padding-left: 2.8rem;
-        }
       }
     }
   }

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {darken, transparentize} from 'polished';
 
 export const Container = styled.div`
   margin-top: 4rem;
@@ -32,6 +33,32 @@ export const Container = styled.div`
 
       &.deposit {
         color: var(--green);
+      }
+
+      button{
+        border: 0;
+
+        font-size: 1.1rem;
+
+        width: 2rem;
+        height: 2rem;
+
+        border-radius:50%;
+
+        transition: filter 0.2s;
+        cursor: pointer;
+
+        &:hover{
+          filter: brightness(0.9);
+        }
+
+        &.update-transaction{
+          color: ${darken(0.1,'#33CC95')};
+        }
+
+        &.delete-transaction{
+          color: ${darken(0.1,'#E52e54')}
+        }
       }
 
       @media(max-width: 720px){

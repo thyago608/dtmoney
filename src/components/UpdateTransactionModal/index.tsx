@@ -1,63 +1,73 @@
-import { FormEvent, useState } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import Modal from 'react-modal';
-
 import { useTransactions } from '../../hooks/useTransactions';
-import { useModal } from '../../hooks/useModal';
 
+import { useModal } from '../../hooks/useModal';
 import closeImg from '../../assets/close.svg';
 import incomeImg from '../../assets/income.svg';
 import outcomeImg from '../../assets/outcome.svg';
 
 import { Container, TransactionTypeContainer, Button } from './styles';
 
-export function NewTransactionModal(){
-    const { createNewTransaction } = useTransactions();
-    const { isNewTransactionModalOpen, handleCloseNewTransactionModal} = useModal();
+export function UpdateTransactionModal(){
+    const { isUpdateTransactionModalOPen, 
+            handleCloseUpdateTransactionModal,
+            transactionCurrent
+    } = useModal();
+
+    const { updateTransaction } = useTransactions();
 
     const [title, setTitle]= useState('');
     const [category, setCategory]= useState('');
     const [value, setValue]= useState('');
     
-    const [type, setType] = useState('deposit');
-    
-    async function handleCreateNewTransaction(event: FormEvent){
+    const [type, setType] = useState('');
+
+    useEffect(()=>{
+        setType(transactionCurrent.type);
+    },[transactionCurrent])
+
+    async function handleUpdateTransaction(event:FormEvent){
         event.preventDefault();
 
-        await createNewTransaction({
+        await updateTransaction({
+            id: transactionCurrent.id,
             title,
             category,
             value: Number(value),
-            type
+            type,
+            createdAt: transactionCurrent.createdAt
         });
+
 
         setTitle('');
         setCategory('');
         setValue('');
-        setType('deposit');
-        handleCloseNewTransactionModal();
+        setType('');
+        handleCloseUpdateTransactionModal();
     }
 
     return(
         <Modal
-            isOpen={isNewTransactionModalOpen}
-            onRequestClose={handleCloseNewTransactionModal}
+            isOpen={isUpdateTransactionModalOPen}
+            onRequestClose={handleCloseUpdateTransactionModal}
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
             <button 
                 type="button" 
                 className="react-modal-close"
-                onClick={handleCloseNewTransactionModal}
+                onClick={handleCloseUpdateTransactionModal}
             >
                 <img src={closeImg} alt="Fechar Modal"/>
-            </button>
-           
-            <Container onSubmit={handleCreateNewTransaction}>
-                <h2>Cadastrar Transação</h2>
+            </button>   
+
+            <Container onSubmit={handleUpdateTransaction}>
+                <h2>Atualizar Transação</h2>
 
                 <input 
                     type="text" 
-                    placeholder="Título"
+                    placeholder={`${transactionCurrent.title}`}
                     value={title}
                     onChange={(e)=> setTitle(e.target.value)}
                 />
@@ -65,7 +75,7 @@ export function NewTransactionModal(){
                 <input 
                     type="number" 
                     min={0}
-                    placeholder="R$ 0,00"
+                    placeholder={`R$ ${transactionCurrent.value}`}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                 />
@@ -94,13 +104,13 @@ export function NewTransactionModal(){
                 
                 <input 
                     type="text" 
-                    placeholder="Categoria"
+                    placeholder={`${transactionCurrent.category}`}
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                 />
 
                 <button type="submit">
-                    Cadastrar
+                    Atualizar
                 </button>
             </Container>
         </Modal>

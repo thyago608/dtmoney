@@ -1,9 +1,12 @@
+import { useModal } from '../../hooks/useModal';
+import { FiTool, FiTrash2 } from 'react-icons/fi';
 import { useTransactions } from '../../hooks/useTransactions';
 import { Container } from "./styles";
 
 export function TransactionsTable() {
   const { transactions } = useTransactions();
-  
+  const { handleOpenUpdateTransactionModal } = useModal();
+
   return (
     <Container>
       <table>
@@ -13,6 +16,7 @@ export function TransactionsTable() {
             <th>Valor</th>
             <th>Categoria</th>
             <th>Data</th>
+            <th></th>
           </tr>
         </thead>
 
@@ -30,7 +34,21 @@ export function TransactionsTable() {
                  <td>
                    {new Intl.DateTimeFormat('pt-BR').format(new Date(transaction.createdAt))}
                 </td>
-              </tr>
+                <td>
+                  <div className="container-buttons">
+                      <button 
+                        type="button" 
+                        className="update-transaction"
+                        onClick={()=>handleOpenUpdateTransactionModal(transaction)}
+                      >
+                          <FiTool/>
+                      </button>
+                      <button type="button" className="delete-transaction">
+                          <FiTrash2/>
+                      </button>
+                  </div>
+                </td>
+            </tr>
             ))}
         </tbody>
       </table>

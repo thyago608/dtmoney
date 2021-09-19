@@ -45,6 +45,19 @@ createServer({
           createdAt: new Date(),
         });
     });
+
+    this.put('/transactions',(schema, request) =>{
+      const transactionRequest = JSON.parse(request.requestBody);
+
+      const transaction = schema.find('transaction', transactionRequest.id);
+
+      transaction?.update({
+         ...transactionRequest,
+         createdAt: new Date()
+      });
+     
+      return transaction ?? {};
+    });
   },
 });
 

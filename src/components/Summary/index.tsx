@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTransactions } from '../../hooks/useTransactions';
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import incomeImg from "../../assets/income.svg";
@@ -8,8 +7,7 @@ import { Container, CarrouselWrapper, Carrousel } from "./styles";
 
 export function Summary() {
   const { transactions } = useTransactions();
-  const [scrollAmount, setScrollAmount] = useState(0);
-  let valueToGo = scrollAmount;
+  let valueToGo = 200;
 
   const summary = transactions.reduce((accumulator, transaction)=>{
     if(transaction.type === 'deposit'){
@@ -37,15 +35,13 @@ export function Summary() {
         valueToGo = 0;
     }
 
-    setScrollAmount(valueToGo);
-
     carrousel?.scrollTo({
         top:0,
         left:valueToGo,
         behavior: 'smooth'
     });
 
-    }
+}
 
   function sliderScrollRight(){
     const carrousel = document.querySelector('.carrousel');
@@ -56,22 +52,20 @@ export function Summary() {
 
     const total = scrollWidth - clientWidth;
 
-    if(scrollAmount <= total){
+    if(valueToGo <= total){
       valueToGo += 400;
-
-      setScrollAmount(valueToGo);
 
       carrousel?.scrollTo({
           top:0,
           left:valueToGo,
           behavior: 'smooth'
       });
-
     }
-  }
+}
 
 
-  console.log(scrollAmount);
+console.log(transactions);
+
 
   return (
     <Container>
