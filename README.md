@@ -1,4 +1,4 @@
-<img src="src/assets/images/capa.png" alt="dtmoney"/>
+<img src="src/assets/capa.png" alt="dtmoney"/>
 
 ## Sobre
 
