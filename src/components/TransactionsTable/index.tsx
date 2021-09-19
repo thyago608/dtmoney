@@ -4,9 +4,13 @@ import { useTransactions } from '../../hooks/useTransactions';
 import { Container } from "./styles";
 
 export function TransactionsTable() {
-  const { transactions } = useTransactions();
+  const { transactions, deleteTransaction } = useTransactions();
   const { handleOpenUpdateTransactionModal } = useModal();
 
+
+  async function handleDeleteTransaction(id:string){
+    const response = await deleteTransaction(id);
+  }
   return (
     <Container>
       <table>
@@ -43,7 +47,11 @@ export function TransactionsTable() {
                       >
                           <FiTool/>
                       </button>
-                      <button type="button" className="delete-transaction">
+                      <button 
+                          type="button" 
+                          className="delete-transaction"
+                          onClick={()=> handleDeleteTransaction(String(transaction.id))}
+                      >
                           <FiTrash2/>
                       </button>
                   </div>

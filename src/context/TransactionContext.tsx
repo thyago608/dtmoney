@@ -19,6 +19,7 @@ type TransactionContextData = {
     transactions: Transaction[];
     createNewTransaction: (transaction:TransactionInput) => Promise<void>;
     updateTransaction: (transaction: Transaction) => Promise<void>;
+    deleteTransaction: (id:string)=> Promise<void>;
 };
 
 //Tipagem do Provider
@@ -55,6 +56,20 @@ export function TransactionProvider({ children }:TransactionProviderProps){
         setTransactions([...transactionsCopy]);
     }   
 
+
+    async function deleteTransaction(id:string){
+        await api.delete('/transactions',{params:id});
+
+        const copyTransactions = transactions;
+
+        const transactionIndex = copyTransactions.findIndex(transaction => transaction.id === Number(id));
+
+        copyTransactions.splice(transactionIndex, 1);
+
+        setTransactions([...copyTransactions]);
+
+    }
+
     useEffect(()=>{
         const loadTransactions = async () => {
             const response = await api.get('/transactions');
@@ -67,7 +82,12 @@ export function TransactionProvider({ children }:TransactionProviderProps){
 
     
     return(
-        <TransactionContext.Provider value={{ transactions, createNewTransaction, updateTransaction}}>
+        <TransactionContext.Provider value={{ 
+                transactions, 
+                createNewTransaction,
+                updateTransaction,
+                deleteTransaction
+            }}>
             {children}
         </TransactionContext.Provider>
     );

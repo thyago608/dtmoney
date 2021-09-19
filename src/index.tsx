@@ -58,6 +58,16 @@ createServer({
      
       return transaction ?? {};
     });
+
+    this.delete('/transactions', (schema, request) => {
+      const idTransaction = JSON.parse(request.queryParams[0]);
+
+      const transaction = schema.find('transaction',idTransaction);
+      
+      transaction?.destroy();
+
+      return transaction ?? {};
+    });
   },
 });
 

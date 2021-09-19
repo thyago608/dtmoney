@@ -63,10 +63,6 @@ export function Summary() {
     }
 }
 
-
-console.log(transactions);
-
-
   return (
     <Container>
       <CarrouselWrapper className="carrousel">
