@@ -28,6 +28,10 @@ export const Container = styled.form`
         & + input{
             margin-top: 1rem;
         }
+
+        &.empty-value{
+            border-color: var(--red);
+        }
     }
 
     button[type="submit"]{

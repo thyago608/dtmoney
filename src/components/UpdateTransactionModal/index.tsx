@@ -17,11 +17,9 @@ export function UpdateTransactionModal(){
 
     const { updateTransaction } = useTransactions();
 
-    const [title, setTitle]= useState('');
-    const [category, setCategory]= useState('');
-    const [value, setValue]= useState('');
-    
-
+    const inputTitleRef = useRef<HTMLInputElement>(null);
+    const inputCategoryRef = useRef<HTMLInputElement>(null);
+    const inputValueRef = useRef<HTMLInputElement>(null);
     const [type, setType] = useState('');
 
     useEffect(()=>{
@@ -31,31 +29,43 @@ export function UpdateTransactionModal(){
     async function handleUpdateTransaction(event:FormEvent){
         event.preventDefault();
 
-        await updateTransaction({
-            id: transactionCurrent.id,
-            title,
-            category,
-            value: Number(value),
-            type,
-            createdAt: transactionCurrent.createdAt
-        });
+        if(isValidated()){
+            await updateTransaction({
+                id: transactionCurrent.id,
+                title: inputTitleRef.current!.value,
+                category: inputCategoryRef.current!.value,
+                value: Number(inputValueRef.current!.value),
+                type,
+                createdAt: transactionCurrent.createdAt
+            });
 
+            setType('');
+            handleCloseUpdateTransactionModal();
+        }
 
-        setTitle('');
-        setCategory('');
-        setValue('');
-        setType('');
-        handleCloseUpdateTransactionModal();
     }
 
 
-    function inputIsEmpty(){
+    function isValidated(){
+        inputTitleRef.current?.value === '' ? inputTitleRef.current?.classList.add('empty-value')
+                    :inputTitleRef.current?.classList.remove('empty-value');
+    
+        inputCategoryRef.current?.value === '' ? inputCategoryRef.current?.classList.add('empty-value')
+                    :inputCategoryRef.current?.classList.remove('empty-value');
 
+        inputValueRef.current?.value === '' ? inputValueRef.current?.classList.add('empty-value')
+                    :inputValueRef.current?.classList.remove('empty-value');
+
+        const validated = inputTitleRef.current?.value !== '' 
+                        && inputCategoryRef.current?.value !== ''
+                        && inputValueRef.current?.value !== '';
+
+        return validated;
     }
 
     return(
         <Modal
-            isOpen={true}
+            isOpen={isUpdateTransactionModalOPen}
             onRequestClose={handleCloseUpdateTransactionModal}
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
@@ -74,16 +84,14 @@ export function UpdateTransactionModal(){
                 <input 
                     type="text" 
                     placeholder={`${transactionCurrent.title}`}
-                    value={title}
-                    onChange={(e)=> setTitle(e.target.value)}
+                    ref={inputTitleRef}
                 />
 
                 <input 
                     type="number" 
                     min={0}
                     placeholder={`R$ ${transactionCurrent.value}`}
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    ref={inputValueRef}
                 />
 
                 <TransactionTypeContainer>
@@ -111,8 +119,7 @@ export function UpdateTransactionModal(){
                 <input 
                     type="text" 
                     placeholder={`${transactionCurrent.category}`}
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+                    ref={inputCategoryRef}
                 />
 
                 <button type="submit">

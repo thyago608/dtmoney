@@ -24,23 +24,21 @@ export function NewTransactionModal(){
     async function handleCreateNewTransaction(event: FormEvent){
         event.preventDefault();
 
-        const validated = inputIsEmpty();
-
-        if(validated){
+        if(isValidated()){
             await createNewTransaction({
                 title: inputTitleRef.current!.value,
                 category: inputCategoryRef.current!.value,
                 value: Number(inputValueRef.current!.value),
                 type
             });
+        
+            setType('deposit');
+            handleCloseNewTransactionModal();
         }
-
-        setType('deposit');
-        handleCloseNewTransactionModal();
     }
 
 
-    function inputIsEmpty(){
+    function isValidated(){
        inputTitleRef.current?.value === ''? inputTitleRef.current?.classList.add('empty-value')
                         :inputTitleRef.current?.classList.remove('empty-value');
 
@@ -51,20 +49,13 @@ export function NewTransactionModal(){
                         :inputValueRef.current?.classList.remove('empty-value');
 
 
-        const title = inputTitleRef.current?.value === ''? true:false;
-
-        const category = inputCategoryRef.current?.value === ''? true: false;
-
-        const value = inputValueRef.current?.value === '' ? true: false;
-
-        if(title || category || value){
-            return false;
-        }
-
-        return true;
+        const validated = inputTitleRef.current?.value !== '' 
+                    && inputCategoryRef.current?.value !== '' 
+                    && inputValueRef.current?.value !== '';
+                    
+        return validated;
     }
  
-
     return(
         <Modal
             isOpen={isNewTransactionModalOpen}
