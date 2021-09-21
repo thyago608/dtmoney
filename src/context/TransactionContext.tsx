@@ -67,7 +67,6 @@ export function TransactionProvider({ children }:TransactionProviderProps){
         copyTransactions.splice(transactionIndex, 1);
 
         setTransactions([...copyTransactions]);
-
     }
 
     useEffect(()=>{

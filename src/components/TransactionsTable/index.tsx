@@ -9,8 +9,9 @@ export function TransactionsTable() {
 
 
   async function handleDeleteTransaction(id:string){
-    const response = await deleteTransaction(id);
+      await deleteTransaction(id);
   }
+  
   return (
     <Container>
       <table>

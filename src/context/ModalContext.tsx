@@ -13,7 +13,7 @@ type ModalContextProps = {
     isNewTransactionModalOpen: boolean;
     isUpdateTransactionModalOPen:boolean;
     transactionCurrent: Transaction;
-    handleOpenNewTransactionModal:()=> void;
+    handleOpenNewTransactionModal:() => void;
     handleCloseNewTransactionModal:() => void;
     handleOpenUpdateTransactionModal: (transaction:Transaction) => void;
     handleCloseUpdateTransactionModal: ()=> void;
@@ -50,6 +50,7 @@ export function ModalProvider({children}:ModalContextProviderProps){
 
     function handleCloseUpdateTransactionModal(){
         setIsUpdateTransactionModal(false);
+        setTransactionCurrent({} as Transaction);
     }
 
 

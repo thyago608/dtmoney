@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 import Modal from 'react-modal';
 import { useTransactions } from '../../hooks/useTransactions';
 
@@ -21,6 +21,7 @@ export function UpdateTransactionModal(){
     const [category, setCategory]= useState('');
     const [value, setValue]= useState('');
     
+
     const [type, setType] = useState('');
 
     useEffect(()=>{
@@ -47,9 +48,14 @@ export function UpdateTransactionModal(){
         handleCloseUpdateTransactionModal();
     }
 
+
+    function inputIsEmpty(){
+
+    }
+
     return(
         <Modal
-            isOpen={isUpdateTransactionModalOPen}
+            isOpen={true}
             onRequestClose={handleCloseUpdateTransactionModal}
             overlayClassName="react-modal-overlay"
             className="react-modal-content"

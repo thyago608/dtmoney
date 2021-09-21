@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://localhost:3000/api', 
+    baseURL: 'https://3000-green-vulture-s4gu9p7x.ws-us15.gitpod.io/api', 
 });
 
 export default api;
