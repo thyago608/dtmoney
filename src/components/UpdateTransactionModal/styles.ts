@@ -30,7 +30,7 @@ export const Container = styled.form`
         }
 
         &.empty-value{
-            border-color: var(--red);
+            border-color: ${transparentize(0.4,'#E52e54')};
         }
     }
 

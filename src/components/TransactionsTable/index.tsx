@@ -1,19 +1,76 @@
+import { useState } from 'react';
 import { useModal } from '../../hooks/useModal';
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { FiTool, FiTrash2 } from 'react-icons/fi';
 import { useTransactions } from '../../hooks/useTransactions';
-import { Container } from "./styles";
+import { Container, ContainerButtons } from "./styles";
 
 export function TransactionsTable() {
   const { transactions, deleteTransaction } = useTransactions();
   const { handleOpenUpdateTransactionModal } = useModal();
+  const [widthContainerButtons, setWidthContainerButtons] = useState(()=>{
+  const width = window.innerWidth - (window.innerWidth * 0.07);
 
+    return width;
+  });
+  let scrollAmount = 0;
 
   async function handleDeleteTransaction(id:string){
       await deleteTransaction(id);
   }
-  
+
+  function sliderScrollLeft(){
+    const containerScroll = document.querySelector('.container-scroll');
+    
+    scrollAmount-= 200;
+
+    if(scrollAmount < 0){
+      scrollAmount = 0;
+    }
+
+    containerScroll?.scrollTo({
+      top: 0,
+      left: scrollAmount,
+      behavior:'smooth'
+    });
+
+  }
+
+  function sliderScrollRight(){
+    const containerScroll = document.querySelector('.container-scroll');
+
+    const scrollWidth = containerScroll?.scrollWidth ?? 0;
+
+    const clientWidth = containerScroll?.clientWidth ?? 0;
+
+    const total = scrollWidth - clientWidth;
+
+    if(scrollAmount <= total){
+       scrollAmount+= 200;
+
+       containerScroll?.scrollTo({
+         top:0,
+         left: scrollAmount,
+         behavior: 'smooth'
+       });
+
+          if(widthContainerButtons === 479){
+            containerScroll?.scrollTo({
+              top:0,
+              left: 0,
+              behavior: 'smooth'
+            });
+
+            setWidthContainerButtons(window.innerWidth - 30);
+            return;
+          }
+      
+       setWidthContainerButtons(scrollWidth);      
+      }
+  }
+
   return (
-    <Container>
+    <Container className="container-scroll">
       <table>
         <thead>
           <tr>  
@@ -61,6 +118,22 @@ export function TransactionsTable() {
             ))}
         </tbody>
       </table>
+    
+      <ContainerButtons style={{width: `${widthContainerButtons}px`}}>
+        <button 
+          type="button"
+          onClick={sliderScrollLeft}
+          className="button button-previous">
+          <FiChevronLeft/>
+        </button>
+
+        <button 
+          type="button"
+          onClick={sliderScrollRight}
+          className="button button-next">
+          <FiChevronRight/>
+        </button>
+      </ContainerButtons>
     </Container>
   );
 }

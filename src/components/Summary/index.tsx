@@ -7,7 +7,7 @@ import { Container, CarrouselWrapper, Carrousel } from "./styles";
 
 export function Summary() {
   const { transactions } = useTransactions();
-  let valueToGo = 200;
+  let valueToGo = 0;
 
   const summary = transactions.reduce((accumulator, transaction)=>{
     if(transaction.type === 'deposit'){

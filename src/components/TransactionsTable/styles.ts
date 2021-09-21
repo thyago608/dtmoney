@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import {darken} from 'polished';
+import {darken, transparentize} from 'polished';
 
 export const Container = styled.div`
   margin-top: 4rem;
+  overflow-x: hidden;
+  position: relative;
 
   table {
     width: 100%;
@@ -17,6 +19,7 @@ export const Container = styled.div`
     }
 
     td {
+      
       padding: 1rem 2rem;
       border: 0;
       background: var(--shape);
@@ -35,13 +38,18 @@ export const Container = styled.div`
         color: var(--green);
       }
 
+      .container-buttons{
+        display: flex;
+        justify-content: space-evenly;
+      }
+
       button{
         border: 0;
 
         font-size: 1.1rem;
 
-        width: 2rem;
-        height: 2rem;
+        width: 1.8rem;
+        height: 1.8rem;
 
         border-radius:50%;
 
@@ -54,6 +62,7 @@ export const Container = styled.div`
 
         &.update-transaction{
           color: ${darken(0.1,'#33CC95')};
+          margin-right: 5px;
         }
 
         &.delete-transaction{
@@ -62,8 +71,52 @@ export const Container = styled.div`
       }
 
       @media(max-width: 720px){
-        padding: 1rem;
+        padding: 1rem 0.85rem;
+
+        .container-buttons{
+          flex-direction:column;
+
+          button.update-transaction{
+            margin-bottom: 10px;
+          }
+        }
+
       }
     }
   }
+
+`;
+
+
+export const ContainerButtons = styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+
+     button.button{
+      width: 3rem;
+      height: 4rem;
+      
+      border:0;
+      background: ${transparentize(0.6, '#ccc')};
+      color: var(--text-title);
+      font-size: 2rem;
+      transition: filter 0.2s;
+
+
+      &:hover{
+        filter: brightness(0.9);
+      }
+
+    }
+
+    @media(min-width: 420px){
+      display: none;
+    }
+
+
 `;

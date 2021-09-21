@@ -3,7 +3,7 @@ import { transparentize} from 'polished';
 
 export const Container = styled.div`
   position: relative;
-
+  
   .button{
     padding: 0 0.1rem;
     height: 10rem;
