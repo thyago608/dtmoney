@@ -3,7 +3,7 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
 import totalImg from "../../assets/total.svg";
-import { Container, CarrouselWrapper, Carrousel } from "./styles";
+import { Container, CarrouselWrapper, Carrousel, ContainerButtons } from "./styles";
 
 export function Summary() {
   const { transactions } = useTransactions();
@@ -101,22 +101,23 @@ export function Summary() {
             </section>
         </Carrousel>
       </CarrouselWrapper>
+      <ContainerButtons>
+          <button 
+                type="button" 
+                className="button button-previous"
+                onClick={sliderScrollLeft}
+          >
+              <FiChevronLeft/>
+          </button>
 
-      <button 
-            type="button" 
-            className="button button-previous"
-            onClick={sliderScrollLeft}
-      >
-          <FiChevronLeft/>
-      </button>
-
-      <button 
-            type="button" 
-            className="button button-next"
-            onClick={sliderScrollRight}
-        >
-          <FiChevronRight/>
-      </button>
+          <button 
+                type="button" 
+                className="button button-next"
+                onClick={sliderScrollRight}
+            >
+              <FiChevronRight/>
+          </button>
+      </ContainerButtons>
     </Container>
   );
 }

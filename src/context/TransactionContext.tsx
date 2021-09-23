@@ -79,7 +79,7 @@ export function TransactionProvider({ children }:TransactionProviderProps){
         loadTransactions();
     },[]);
 
-    
+
     return(
         <TransactionContext.Provider value={{ 
                 transactions, 

@@ -2,34 +2,6 @@ import styled from "styled-components";
 import { transparentize} from 'polished';
 
 export const Container = styled.div`
-  position: relative;
-  
-  .button{
-    padding: 0 0.1rem;
-    height: 10rem;
-    font-size: 2rem;
-    color: var(--text-title);
-    background: ${transparentize(0.5,'#ccc')};
-    border: 0;
-
-    position: absolute;
-
-    &:hover{
-      filter: brightness(0.9);
-    }
-  }
-
-  .button-previous{
-    top:0;
-    left:0;
-  }
-
-  .button-next{
-    top:0;
-    right: 0;
-  }
-
-
   @media(min-width: 720px){
     .button{
       display:none;
@@ -88,6 +60,35 @@ export const Carrousel = styled.div`
         width: 28rem;
         height: 10rem;
       }
+    }
+  }
+`;
+
+export const ContainerButtons = styled.div`
+  border: 1px solid blue;
+
+  margin-top: -7rem;
+
+  display: flex;
+  justify-content: space-between;
+
+  button{
+    border: 0;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 4rem;
+    height: 4rem;
+
+    border-radius: 50%;
+    font-size: 2rem;
+    color: var(--text-title);
+    background: ${transparentize(0.5,'#ccc')};
+
+    &:hover{
+      filter: brightness(0.9);
     }
   }
 `;

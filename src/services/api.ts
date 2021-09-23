@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://3000-blue-goat-xgbyjp5g.ws-us15.gitpod.io/api', 
+    baseURL: 'https://3000-aqua-mollusk-ot7e8wqx.ws-us17.gitpod.io/api', 
 });
 
 export default api;
